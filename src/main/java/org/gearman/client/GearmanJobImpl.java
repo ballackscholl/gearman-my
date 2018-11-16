@@ -14,6 +14,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 import org.gearman.common.Constants;
 import org.gearman.common.GearmanException;
 import org.gearman.common.GearmanJobServerSession;
@@ -239,6 +240,13 @@ public final class GearmanJobImpl implements GearmanJob, GearmanServerResponseHa
                 }
                 handle = event.getDataComponentValue(
                         GearmanPacket.DataComponentName.JOB_HANDLE);
+                
+                byte[] unique = event.getDataComponentValue(GearmanPacket.DataComponentName.UNIQUE_ID);
+                
+                if(!this.uuid.equals(new String(unique))) {
+                	throw new GearmanException(String.format("Job unique %s mis-match %s ", uuid, new String(unique)));
+                }
+                
                 if (isBackgroundJob()) {
                     isComplete = true;
                     jobResult = new GearmanJobResultImpl(handle, true, null,
