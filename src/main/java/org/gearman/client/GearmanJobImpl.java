@@ -212,7 +212,6 @@ public final class GearmanJobImpl implements GearmanJob, GearmanServerResponseHa
                 }
 
             }
-            Thread.sleep(100);
         }
         if (!isComplete) {
             throw new TimeoutException("Failed to retrieve job result in" +
