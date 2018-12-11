@@ -243,12 +243,6 @@ public class GearmanNIOJobServerConnection
         if (!selector.isOpen()) {
             return false;
         }
-        try {
-            selector.selectNow();
-        } catch (IOException ioe) {
-            LOG.warn("Connection Failed to select on socket " +
-                    this, ioe);
-        }
         return (selectorKey.isWritable());
     }
 
